@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel da Loja / Funcionário - Drivo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="index.html">
+        <!-- AQUI LOGO CLARA / AQUI LOGO ESCURA -->
+        <img src="logo-drivo.png" alt="Drivo ( Logo Clara / Logo Escura)" class="logo-drivo-img">
+      </a>
+      <div class="d-flex align-items-center gap-3">
+        <button id="btn-tema" class="btn btn-outline-secondary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+          <i class="bi bi-moon" id="icone-tema"></i>
+        </button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCarro"><i class="bi bi-plus-circle"></i> Cadastrar Novo Carro</button>
+        <a href="#" class="btn btn-outline-danger btn-sm" id="btn-logout">Sair</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <!-- Seção de Reservas / Notificações para a Loja -->
+    <div class="card mb-5 shadow-sm border-0">
+      <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-inbox-fill"></i> Reservas e Solicitações Recebidas dos Clientes</h5>
+        <span class="badge bg-danger" id="badge-reservas-loja">0 pendentes</span>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Cliente</th>
+                <th>Veículo Solicitado</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Alterar Status / Responder</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-reservas-loja">
+              <!-- Injetado via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gestão de Frotas (Veículos da Loja) -->
+    <h3 class="fw-bold mb-3">Frota de Veículos Cadastrados</h3>
+    <div class="row g-4" id="grid-frota-loja">
+      <!-- Injetado via JS -->
+    </div>
+  </div>
+
+  <!-- Modal Cadastrar Carro -->
+  <div class="modal fade" id="modalCarro" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cadastrar Novo Veículo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="form-cadastrar-carro">
+            <div class="mb-3">
+              <label class="form-label">Modelo do Carro</label>
+              <input type="text" class="form-control" id="car-modelo" placeholder="Ex: Fiat Pulse" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Marca</label>
+              <input type="text" class="form-control" id="car-marca" placeholder="Ex: Fiat" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Ano</label>
+              <input type="number" class="form-control" id="car-ano" placeholder="2025" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Placa</label>
+              <input type="text" class="form-control" id="car-placa" placeholder="ABC-1234" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Valor da Diária (R$)</label>
+              <input type="number" class="form-control" id="car-preco" placeholder="150.00" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">URL da Imagem</label>
+              <input type="text" class="form-control" id="car-img" placeholder="https://..." value="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Salvar Veículo</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

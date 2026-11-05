@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Drivo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="index.html">
+        <!-- AQUI LOGO CLARA / AQUI LOGO ESCURA -->
+        <img src="logo-drivo.png" alt="Drivo (Logo Clara / Logo Escura)" class="logo-drivo-img">
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <button id="btn-tema" class="btn btn-outline-secondary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+          <i class="bi bi-moon" id="icone-tema"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container d-flex flex-column align-items-center justify-content-center my-5" style="min-height: 85vh;">
+    <div class="text-center mb-4">
+      <i class="bi bi-person-plus-fill text-primary fs-2 mb-2 d-inline-block"></i>
+      <h1 class="fw-bold display-6 mb-2">Crie sua conta</h1>
+      <p class="text-secondary">Informe seus dados cadastrais, profissionais e empregadores (máximo 3)</p>
+    </div>
+
+    <div class="card-login w-100" style="max-width: 650px;">
+      <form id="form-cadastro">
+        <!-- Tipo de Usuário -->
+        <div class="mb-3">
+          <label for="tipo-usuario" class="form-label form-label-custom text-uppercase">Perfil de Acesso</label>
+          <select class="form-select" id="tipo-usuario">
+            <option value="cliente">Cliente (Contratante de Aluguel)</option>
+            <option value="funcionario">Funcionário / Loja / Banco</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="nome" class="form-label form-label-custom text-uppercase">Nome Completo</label>
+            <input type="text" class="form-control" id="nome" placeholder="Seu nome" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="email" class="form-label form-label-custom text-uppercase">E-mail</label>
+            <input type="email" class="form-control" id="email" placeholder="email@email.com" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="senha" class="form-label form-label-custom text-uppercase">Senha</label>
+            <input type="password" class="form-control" id="senha" placeholder="********" required>
+          </div>
+          <div class="col-md-6 mb-3" id="div-empresa" style="display: none;">
+            <label for="empresa" class="form-label form-label-custom text-uppercase">Nome da Empresa / Loja / Banco</label>
+            <input type="text" class="form-control" id="empresa" placeholder="Ex: Localiza BH ou Banco Itaú">
+          </div>
+        </div>
+
+        <!-- Campos específicos para Contratante (Cliente) -->
+        <div id="secao-cliente-dados">
+          <hr class="my-4 border-secondary opacity-25">
+          <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-card-heading"></i> Dados de Identificação e Profissionais</h5>
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="rg" class="form-label form-label-custom text-uppercase">RG</label>
+              <input type="text" class="form-control" id="rg" placeholder="MG-12.345.678">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="cpf" class="form-label form-label-custom text-uppercase">CPF</label>
+              <input type="text" class="form-control" id="cpf" placeholder="123.456.789-00">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="endereco" class="form-label form-label-custom text-uppercase">Endereço Completo</label>
+            <input type="text" class="form-control" id="endereco" placeholder="Rua Exemplo, 100 - Bairro - Belo Horizonte/MG">
+          </div>
+
+          <div class="mb-4">
+            <label for="profissao" class="form-label form-label-custom text-uppercase">Profissão</label>
+            <input type="text" class="form-control" id="profissao" placeholder="Ex: Desenvolvedor de Software">
+          </div>
+
+          <h6 class="fw-bold mb-2 text-secondary"><i class="bi bi-briefcase"></i> Entidades Empregadoras e Rendimentos (Máximo 3)</h6>
+          <p class="text-muted small mb-3">Informe abaixo até 3 empregadores e os respectivos rendimentos mensais auferidos.</p>
+
+          <!-- Empregador 1 -->
+          <div class="p-3 bg-body-tertiary rounded-3 border border-secondary border-opacity-25 mb-3">
+            <span class="fw-bold small text-primary mb-2 d-block">1ª Entidade Empregadora</span>
+            <div class="row">
+              <div class="col-md-7 mb-2 mb-md-0">
+                <input type="text" class="form-control form-control-sm" id="emp1-nome" placeholder="Nome da Empresa / Órgão">
+              </div>
+              <div class="col-md-5">
+                <input type="number" step="0.01" class="form-control form-control-sm" id="emp1-rendimento" placeholder="Rendimento Mensal (R$)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Empregador 2 -->
+          <div class="p-3 bg-body-tertiary rounded-3 border border-secondary border-opacity-25 mb-3">
+            <span class="fw-bold small text-primary mb-2 d-block">2ª Entidade Empregadora (Opcional)</span>
+            <div class="row">
+              <div class="col-md-7 mb-2 mb-md-0">
+                <input type="text" class="form-control form-control-sm" id="emp2-nome" placeholder="Nome da Empresa / Órgão">
+              </div>
+              <div class="col-md-5">
+                <input type="number" step="0.01" class="form-control form-control-sm" id="emp2-rendimento" placeholder="Rendimento Mensal (R$)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Empregador 3 -->
+          <div class="p-3 bg-body-tertiary rounded-3 border border-secondary border-opacity-25 mb-4">
+            <span class="fw-bold small text-primary mb-2 d-block">3ª Entidade Empregadora (Opcional)</span>
+            <div class="row">
+              <div class="col-md-7 mb-2 mb-md-0">
+                <input type="text" class="form-control form-control-sm" id="emp3-nome" placeholder="Nome da Empresa / Órgão">
+              </div>
+              <div class="col-md-5">
+                <input type="number" step="0.01" class="form-control form-control-sm" id="emp3-rendimento" placeholder="Rendimento Mensal (R$)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary-custom w-100 mb-3">Cadastrar Conta</button>
+        <div class="text-center fs-6 text-secondary">
+          Já tem conta? <a href="login.html" class="text-primary text-decoration-none fw-semibold">Faça login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
