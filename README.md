@@ -1,125 +1,129 @@
-<!-- Template adaptado para o Projeto Drivo - DIW / PUC Minas -->
+# 🚗 Drivo — Sistema Web de Gestão e Aluguel de Automóveis
+
+O **Drivo** (antigo *CarFlow*) é um sistema web responsivo desenvolvido para a disciplina de **Desenvolvimento de Interfaces Web (DIW)** da **PUC Minas**. A plataforma permite que clientes solicitem reservas de automóveis com envio de dados de identificação e rendimento, além de oferecer às locadoras e instituições financeiras uma interface completa para gestão de frota, análise cadastral e alteração de status de pedidos.
 
 ---
 
-# 🏷️ Drivo — Sistema Web de Gestão e Aluguel de Automóveis 👨‍💻
+## 🚀 Funcionalidades Principais
 
-> Plataforma web híbrida e integrada para aluguel, gestão de frotas e validação cadastral entre clientes contratantes, locadoras e instituições financeiras.
+### 👤 Módulo do Cliente (Contratante)
+* **Cadastro Completo:** Registro de dados de identificação (RG, CPF, endereço), profissão e até 3 entidades empregadoras com rendimentos mensais.
+* **Catálogo de Veículos:** Consulta detalhada da frota disponível com identificação da propriedade do veículo (Empresa, Cliente ou Banco/Financiadora).
+* **Solicitação de Aluguel:** Seleção de veículo, estimativa de custos por período e envio da solicitação para análise da loja.
+* **Central de Notificações & Sino:** Notificações em tempo real com indicador visual no cabeçalho sobre a aprovação ou recusa do contrato.
+* **Painel do Cliente:** Gestão de solicitações ativas e histórico com opção de cancelamento de reservas pendentes.
 
-## 📚 Índice
+### 🏢 Módulo da Loja / Funcionário (Locadora & Banco)
+* **Gestão de Frota (CRUD):** Cadastro de novos veículos com suporte a *Drag & Drop* para upload de fotos em Base64, definição de diária e status.
+* **Análise Cadastral e Aprovação:** Visualização completa da ficha cadastral do cliente (RG, CPF, empregadores) para análise financeira.
+* **Ações de Contrato:** Aprovação, rejeição ou cancelamento de contratos com atualização automática da disponibilidade do veículo.
+* **Notificações da Empresa:** Sino e central dedicada para alertas de novos pedidos recebidos.
 
-* [Sobre o Projeto](#-sobre-o-projeto)
-* [Funcionalidades Principais](#-funcionalidades-principais)
-* [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-* [Arquitetura e Persistência de Dados](#-arquitetura-e-persistência-de-dados)
-* [Instalação e Execução](#-instalação-e-execução)
-* [Perfis e Credenciais para Testes](#-perfis-e-credenciais-para-testes)
-* [Plano de Testes (Cenários Passo a Passo)](#-plano-de-testes-cenários-passo-a-passo)
-* [Estrutura de Pastas](#-estrutura-de-pastas)
-* [Autores](#-autores)
+### 🎨 Suporte Acessível a Temas (Light & Dark Mode)
+* Alternância dinâmica de tema (claro/escuro) com persistência da preferência do usuário via `localStorage`.
+* Suporte nativo via CSS para alternância automática das logos (`logo-drivo.png` e `logo-drivo-escuro.png`).
 
-## 📝 Sobre o Projeto
+---
 
-O **Drivo** é uma solução web responsiva desenvolvida para otimizar e intermediar o processo de locação de veículos.
+## 🛠️ Arquitetura Híbrida de Dados (JSON Server + LocalStorage / Vercel)
 
-* **Problema que resolve:** Elimina a burocracia na consulta de frotas e na validação cadastral de clientes por parte das locadoras e bancos parceiros.
-* **Valor entregue:** Permite que clientes pesquisem veículos, verifiquem o registro de propriedade (Empresa, Cliente ou Banco) e enviem propostas com ficha cadastral completa (RG, CPF e fontes de renda). As lojas dispõem de um painel integrado para análise financeira, aprovação de contratos, gestão de frotas e central de notificações em tempo real.
-* **Contexto:** Trabalho prático desenvolvido no âmbito acadêmico da PUC Minas para a disciplina de Desenvolvimento de Interfaces Web (DIW).
+O projeto conta com uma camada de dados adaptável no arquivo `script.js`:
+* **Ambiente Local:** Comunica-se via chamadas HTTP (`GET`, `POST`, `PATCH`, `DELETE`) com o **JSON Server** rodando na porta `3000` (utilizando o arquivo `db.json`).
+* **Ambiente em Nuvem (Vercel):** Caso a API local esteja indisponível, o sistema detecta a ausência do backend e chaveia automaticamente para a simulação em **LocalStorage**, garantindo que todas as telas e persistências funcionem perfeitamente em hospedagens estáticas.
 
-## ✨ Funcionalidades Principais
+---
 
-* 🔐 **Autenticação e Perfis Distintos:** Cadastro e login segregados para *Clientes* (Contratantes) e *Funcionários* (Locadoras/Bancos).
-* 🚗 **Catálogo Dinâmico e Detalhes:** Visualização completa da frota com especificação de diárias, status de disponibilidade e registro de propriedade.
-* 📋 **Ficha de Renda e Empregadores:** Cadastro de até 3 entidades empregadoras e rendimentos mensais pelo cliente.
-* 📥 **Gestão de Solicitações (Loja):** Fila de pedidos recebidos com visualização dos dados cadastrais do cliente e botões de *Aprovar Análise*, *Rejeitar* ou *Cancelar*.
-* 🔔 **Central de Notificações com Sino:** Alertas em tempo real tanto para o cliente (mudança de status do pedido) quanto para a loja (novas reservas).
-* 🌓 **Alternância de Temas (Light/Dark Mode):** Suporte completo a temas com substituição automática inteligente das imagens da logo (`logo-drivo.png` e `logo-drivo-escuro.png`).
-
-## 🛠 Tecnologias Utilizadas
-
-* **Front-end:** HTML5 semântico, CSS3 customizado, Bootstrap 5.3 e Bootstrap Icons.
-* **Lógica e Dinâmica:** JavaScript (ES6+, Async/Await, Fetch API, manipulação do DOM).
-* **Persistência de Dados:** Arquitetura Híbrida com **JSON Server** (`db.json`) e fallback automático para **LocalStorage** (compatível com Vercel).
-
-## 🏗 Arquitetura e Persistência de Dados
-
-A aplicação utiliza um modelo de dados flexível implementado em `script.js`:
-
-1. **Ambiente Local (`JSON Server`):** Conecta-se à porta `3000` operando diretamente sobre o arquivo `db.json`.
-2. **Ambiente de Nuvem / Estático (`LocalStorage`):** Caso o servidor local esteja offline (como em deploys no Vercel), o script chaveia automaticamente para o armazenamento local do navegador, mantendo todas as telas funcionais.
-
-## 🔧 Instalação e Execução
+## ⚙️ Como Executar o Projeto Localmente
 
 ### Pré-requisitos
+* **Node.js** instalado (para executar o `json-server`).
+* Qualquer navegador web moderno (Chrome, Edge, Firefox).
 
-* **Node.js** instalado na máquina.
-* Navegador web moderno (Chrome, Edge, Firefox).
+### Passo a Passo
 
-### Como Executar a Aplicação Localmente
+1. **Descompactar o arquivo `.zip`:**
+   Extraia todo o conteúdo do arquivo ZIP recebido para uma pasta em seu computador.
 
-1. Extraia o pacote ZIP do projeto.
-2. Abra o terminal na pasta raiz onde está o arquivo `db.json`.
-3. **Inicie o JSON Server:**
+2. **Iniciar o JSON Server:**
+   Abra o terminal de sua preferência (Prompt de Comando, PowerShell ou Terminal do VS Code) na pasta raiz do projeto e execute:
    ```bash
    npx json-server --watch db.json --port 3000
    ```
-4. Abra o arquivo **`index.html`** em seu navegador (ou utilize a extensão *Live Server* do VS Code).
+   > O terminal exibirá que a API está rodando em `http://localhost:3000/`.
 
-## 👤 Perfis e Credenciais para Testes
+3. **Abrir a Aplicação:**
+   Abra o arquivo `index.html` diretamente no seu navegador ou utilize a extensão **Live Server** no VS Code.
 
-O banco de dados pré-carregado (`db.json`) já inclui os seguintes usuários de teste:
+---
 
-| Perfil de Acesso | E-mail | Senha | Descrição |
+## 🔑 Credenciais de Teste Pré-cadastradas
+
+O banco de dados (`db.json`) já vem alimentado com os seguintes perfis padrão:
+
+| Perfil | E-mail | Senha | Descrição |
 | :--- | :--- | :--- | :--- |
-| **Cliente / Contratante** | `cliente@email.com` | `123` | Perfil de Ana Souza (com RG, CPF, profissão e empregadores). |
-| **Funcionário / Loja** | `loja@drivo.com` | `123` | Perfil da locadora *Horizonte Rent a Car*. |
+| **Cliente / Contratante** | `cliente@email.com` | `123` | Contratante de teste (Ana Souza) com RG, CPF e empregadores já cadastrados. |
+| **Funcionário / Loja** | `loja@drivo.com` | `123` | Gestor da locadora *Horizonte Rent a Car*. |
 
-## 🧪 Plano de Testes (Cenários Passo a Passo)
+---
 
-### Cenário 1: Solicitação de Reserva (Cliente)
-1. Acesse `login.html` e entre com `cliente@email.com` / `123`.
-2. Navegue até o **Catálogo** (`catalogo.html`).
-3. Escolha um veículo (ex: *Toyota Corolla XEi*) e clique em **Ver Detalhes e Reservar**.
-4. Confira as informações de propriedade e clique em **Solicitar reserva**, confirmando o modal.
-5. O sistema redirecionará para o seu painel (`cliente-painel.html`), exibindo o pedido com o status `Pendente Análise`.
+## 🧪 Cenários de Teste Recomendados
 
-### Cenário 2: Análise Financeira e Aprovação (Loja)
-1. Faça logout e acesse a conta da loja com `loja@drivo.com` / `123`.
-2. Acesse a aba **Solicitações Recebidas** (`loja-solicitacoes.html`).
-3. Visualize os dados cadastrais e de renda enviados pelo cliente.
-4. Clique em **Aprovar Análise**. O veículo ficará indisponível na frota e o contrato será aprovado.
+Para testar todos os requisitos acadêmicos e fluxos da aplicação, siga os cenários abaixo:
 
-### Cenário 3: Alternância de Tema e Logos
-1. Clique no botão de alternar tema (ícone de lua/sol no cabeçalho).
-2. Note que o esquema de cores e a imagem da logo no topo mudam automaticamente entre o modo claro (`logo-drivo.png`) e escuro (`logo-drivo-escuro.png`).
+### 🔹 Teste 1: Fluxo do Cliente (Reservar um Veículo)
+1. Acesse `login.html` e entre com a conta do cliente:
+   * **E-mail:** `cliente@email.com`
+   * **Senha:** `123`
+2. Clique no botão **"Catálogo"** no menu superior.
+3. Clique em **"Ver Detalhes e Reservar"** no veículo *Toyota Corolla XEi*.
+4. Na tela de detalhes, confira as informações de propriedade e clique em **"Solicitar Reserva"**.
+5. Confirme a ação na janela modal.
+6. Você será redirecionado para `cliente-painel.html`, onde verá seu pedido listado com o status `Pendente Análise`.
 
-## 📂 Estrutura de Pastas
+### 🔹 Teste 2: Fluxo da Loja (Análise Financeira e Aprovação)
+1. Faça logout ou abra uma janela anônima para acessar `login.html`.
+2. Entre com a conta da loja:
+   * **E-mail:** `loja@drivo.com`
+   * **Senha:** `123`
+3. Você será direcionado para `loja-solicitacoes.html`. Observe o alerta no **Sino de Notificações**.
+4. Na tabela de solicitações, examine os dados do cliente (RG, CPF e rendimento das empresas empregadoras).
+5. Clique no botão verde **"Aprovar Análise"** e confirme a ação.
+6. Volte à conta de cliente (`cliente@email.com`) e observe a notificação em tempo real informando que o contrato foi aprovado.
 
-```
-.
+### 🔹 Teste 3: Cadastro de Veículo com Upload e Propriedade
+1. Logado como funcionário da loja, navegue até a aba **"Veículos Oferecidos (Frota)"** (`loja-frota.html`).
+2. Clique em **"Cadastrar Novo Carro"**.
+3. Preencha o modelo, marca, ano, placa e valor da diária.
+4. Escolha quem é o proprietário no campo **"Registrado como Propriedade de:"** (*Empresa*, *Cliente* ou *Banco*).
+5. Arraste uma imagem para a área de *Drop Zone* ou selecione um arquivo de imagem do computador.
+6. Clique em **"Salvar Veículo na Frota"**. O novo carro será exibido no grid da loja e no catálogo público.
+
+### 🔹 Teste 4: Troca de Tema (Modo Claro / Modo Escuro)
+1. Em qualquer página, clique no ícone de lua/sol (`#btn-tema`) localizado no topo.
+2. Observe que todo o layout adapta suas cores e a logo no topo alterna suavemente entre `logo-drivo.png` e `logo-drivo-escuro.png`.
+
+---
+
+## 📁 Estrutura de Arquivos do Projeto
+
+```text
 ├── db.json                     # Banco de dados do JSON Server
-├── index.html                  # Landing page da aplicação
-├── login.html                  # Tela de login com design centralizado
-├── cadastro.html               # Tela de cadastro (Cliente ou Funcionário)
-├── catalogo.html               # Vitrine de veículos disponíveis
-├── detalhes-veiculo.html       # Ficha técnica e formulário de reserva
-├── cliente-painel.html         # Painel do cliente e central de notificações
-├── loja-solicitacoes.html      # Fila de pedidos e aprovação de contratos
-├── loja-frota.html             # Gestão e cadastro de frotas da loja
-├── style.css                   # Estilos globais e regras de troca de logo
-├── script.js                   # Lógica da aplicação e cliente HTTP hibrido
-├── logo-drivo.png              # Logotipo oficial (modo claro)
-└── logo-drivo-escuro.png       # Logotipo adaptado (modo escuro)
+├── index.html                  # Página Inicial (Landing Page)
+├── login.html                  # Tela de Autenticação
+├── cadastro.html               # Tela de Cadastro de Usuários e Empregadores
+├── catalogo.html               # Catálogo Geral de Veículos
+├── detalhes-veiculo.html       # Detalhes do Veículo e Solicitação de Reserva
+├── cliente-painel.html         # Painel do Cliente (Reservas, Dados e Notificações)
+├── loja-solicitacoes.html      # Painel da Loja (Fila de Análise e Notificações)
+├── loja-frota.html             # Painel de Gestão da Frota (CRUD de Carros)
+├── style.css                   # Estilos Globais e Alternância de Logos por Tema
+├── script.js                  # Lógica Frontend, Controle de Sessão e API Híbrida
+├── logo-drivo.png              # Logo para Modo Claro
+└── logo-drivo-escuro.png       # Logo para Modo Escuro
 ```
 
-## 👥 Autores
+---
 
-| 👤 Nome | 🖼️ Foto | :octocat: GitHub | 💼 LinkedIn | 📤 E-mail |
-| :--- | :--- | :--- | :--- | :--- |
-| **Lívia Duarte Silva** | | | | |
-
-* **Professor Orientador:** Prof. Dr. João Paulo Aramuni
-
-## 📄 Licença
-
-Este projeto é desenvolvido para fins educacionais no âmbito da disciplina de Desenvolvimento de Interfaces Web da **PUC Minas**.
+## 👨‍💻 Créditos
+Projeto desenvolvido para o laboratório de **DIW (Desenvolvimento de Interfaces Web)** — **PUC Minas**.
