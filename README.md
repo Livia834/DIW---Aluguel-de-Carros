@@ -124,6 +124,14 @@ Para testar todos os requisitos acadêmicos e fluxos da aplicação, siga os cen
 ```
 
 ---
+## 🔗 Documentações Utilizadas
+
+* 🌐 **HTML5:** [Documentação de Referência Web da MDN (HTML)](https://developer.mozilla.org/pt-BR/docs/Web/HTML)
+* 🎨 **CSS3:** [Documentação de Referência Web da MDN (CSS)](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
+* 💻 **JavaScript (ES6+ & Fetch API):** [Documentação da API Fetch (MDN)](https://developer.mozilla.org/pt-BR/docs/Web/API/Fetch_API)
+* 📱 **Bootstrap 5:** [Documentação Oficial do Bootstrap 5.3](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+* 📦 **JSON Server:** [Repositório Oficial e Guia do JSON Server (GitHub)](https://github.com/typicode/json-server)
+
 ## 👥 Autores
 
 * **Aluno/Desenvolvedor:** Livia Duarte Silva 
